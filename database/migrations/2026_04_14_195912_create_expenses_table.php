@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->constrained()->cascadeOnDelete();
-            $table->foreign('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
             $table->string('title');
             $table->string('description')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('recurring_frequency', ['daily', 'weekly', 'monthly', 'yearly'])->nullable();
             $table->date('recurring_start_date')->nullable();
             $table->date('recurring_end_date')->nullable();
-            $table->foreign('parent_expense_id')->nullable()->constrained('expenses')->cascadeOnDelete();
+            $table->foreignId('parent_expense_id')->nullable()->constrained('expenses')->nullOnDelete();
             $table->boolean('is_auto_generated')->default(false);
 
             $table->timestamps();
